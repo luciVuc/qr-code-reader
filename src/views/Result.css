@@ -1,0 +1,48 @@
+.error button.text-copy-action,
+.result button.text-copy-action {
+  display: none;
+  border-radius: 0.3rem;
+  background-color: transparent;
+  color: rgb(51, 51, 51);
+  border-color: #333333;
+  padding-left: 0.25rem;
+  padding-right: 0.25rem;
+  border: 0;
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+.result:hover button.text-copy-action,
+.result:active button.text-copy-action {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+}
+
+.result {
+  position: relative;
+}
+
+.error p {
+  color: red;
+}
+
+/* .result .result {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.result .result span,
+.result .result a {
+  display: block;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+.result .result button {
+  max-width: fit-content;
+} */
