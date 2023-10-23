@@ -1,10 +1,10 @@
 import React, { useCallback, useRef } from 'react';
 import './App.css';
 import { Route, Routes, useNavigate } from 'react-router-dom';
-import { Element, Spinner, ThemeProvider } from 'react-ui';
+import { ThemeProvider } from 'react-ui';
 import { tokens, components } from 'react-ui/themes/light';
 import { useNavBack } from './hooks';
-import { Home, Result, Scan } from './components';
+import { About, BusyIndicator, Home, Result } from './components';
 
 components.Button.variants = {
   ...components.Button.variants,
@@ -22,47 +22,49 @@ components.Button.variants = {
 };
 
 export function App() {
+  const navigate = useNavigate();
   const busyIndicatorRef = useRef<HTMLDivElement>(null);
 
-  const navigate = useNavigate();
-
   const handleResultUploadSelect = useCallback(() => {
-    if(busyIndicatorRef?.current) {
+    if (busyIndicatorRef?.current) {
       busyIndicatorRef.current.style.display = 'none';
     }
   }, []);
 
-  const hadleUploadCancel = useCallback(() => {
-    if(busyIndicatorRef?.current) {
+  const handleUploadCancel = useCallback(() => {
+    if (busyIndicatorRef?.current) {
       busyIndicatorRef.current.style.display = 'none';
     }
   }, []);
 
-  const hadleUploadClick = useCallback(() => {
-    if(busyIndicatorRef?.current) {
+  const handleUploadClick = useCallback(() => {
+    if (busyIndicatorRef?.current) {
       busyIndicatorRef.current.style.display = '';
     }
   }, []);
 
-  const hadleUploadSelect = useCallback((imgFile?: File | null) => {
-    navigate('/result', {state: { imgFile}});
-    if(busyIndicatorRef?.current) {
+  const handleUploadSelect = useCallback((imgFile?: File | null) => {
+    navigate('/result', { state: { imgFile } });
+    if (busyIndicatorRef?.current) {
       busyIndicatorRef.current.style.display = 'none';
     }
   }, [navigate]);
 
   useNavBack();
 
-  return (    
+  return (
     <ThemeProvider tokens={tokens} components={components}>
       <>
         <Routes>
-          <Route path='/' element={<Home onUploadCancel={hadleUploadCancel} onUploadClick={hadleUploadClick} onUploadSelect={hadleUploadSelect} />} />
-          <Route path='/result' element={<Result onUploadCancel={hadleUploadCancel} onUploadClick={hadleUploadClick} onUploadSelect={handleResultUploadSelect} />} />
-          <Route path='/scan' element={<Scan />} />
+          <Route path='/' element={<Home onUploadCancel={handleUploadCancel} onUploadClick={handleUploadClick} onUploadSelect={handleUploadSelect} />} />
+          <Route path='/scan' element={<Home onUploadCancel={handleUploadCancel} onUploadClick={handleUploadClick} onUploadSelect={handleUploadSelect} />} />
+          <Route path='/result' element={<Result onUploadCancel={handleUploadCancel} onUploadClick={handleUploadClick} onUploadSelect={handleResultUploadSelect} />} />
+          <Route path='/about' element={<About />} />
         </Routes>
 
-        <Element
+        <BusyIndicator ref={busyIndicatorRef} />
+
+        {/* <Element
           data-testid="busy-indicator"
           as="div"
           ref={busyIndicatorRef}
@@ -82,7 +84,7 @@ export function App() {
           }}
         >
           <Spinner size="large" />
-        </Element>
+        </Element> */}
       </>
     </ThemeProvider>
   );

@@ -30,3 +30,17 @@ button:active {
   from { transform:rotate(0deg); }
   to { transform:rotate(360deg); }
 }
+
+div.aboutDialog {
+  background: transparent;
+  max-width: var(--content-max-width);
+  width: -webkit-fill-available;
+  padding: 0;
+}
+
+div.scanDialog {
+  background: transparent;
+  max-width: var(--content-max-width);
+  width: -webkit-fill-available;
+  padding: 0;
+}

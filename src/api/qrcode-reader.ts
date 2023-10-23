@@ -1,5 +1,6 @@
 import QrCode from 'qrcode-reader';
 
+const DEFAULT_ASPECT_RATIO = 16 / 9;
 const qrCode = new QrCode();
 
 export const decode = (imageData: ImageData) => {
@@ -15,10 +16,10 @@ export const decode = (imageData: ImageData) => {
   });
 };
 
-const getVideo = async (aspectRatio: number = 16/9) => {
+const getVideo = async (aspectRatio: number = DEFAULT_ASPECT_RATIO) => {
   if (!navigator.mediaDevices) {
     return Promise.reject({
-      error: "mediaDevices not supported."
+      error: "MediaDevices not supported. Try uploading the QR Code as an image file."
     });
   }
   const stream = await navigator.mediaDevices.getUserMedia({
@@ -33,33 +34,36 @@ const getVideo = async (aspectRatio: number = 16/9) => {
   return video;
 };
 
-export const readQRCodeFromCamera = async (canvas: HTMLCanvasElement, aspectRatio: number = 16/9): Promise<IQRCodeReaderData> => {
-  const video = await getVideo(aspectRatio);
+export const readQRCodeFromCamera = async (canvas: HTMLCanvasElement, aspectRatio: number = DEFAULT_ASPECT_RATIO): Promise<IQRCodeReaderData> => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const video = await getVideo(aspectRatio);
+      video.onloadeddata = () => {
+        const ctx = canvas.getContext('2d', { willReadFrequently: true }) as CanvasRenderingContext2D;
+        // Define a function to draw the video frame to the canvas
+        const drawFrame = async () => {
+          if (video.readyState === video.HAVE_ENOUGH_DATA) {
+            ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+          }
+          const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+          const result = await decode(imageData).catch((error) => {
+            return error;
+          }) as IQRCodeReaderData;
+          if (result?.result) {
+            resolve({ ...result, imageData } as IQRCodeReaderData);
+          } else {
+            requestAnimationFrame(drawFrame);
+          }
+        };
 
-  return new Promise((resolve) => {
-    video.onloadeddata = () => {
-      const ctx = canvas.getContext('2d', { willReadFrequently: true }) as CanvasRenderingContext2D;
-      // Define a function to draw the video frame to the canvas
-      const drawFrame = async () => {
-        if (video.readyState === video.HAVE_ENOUGH_DATA) {
-          ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-        }
-        const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-        const result = await decode(imageData).catch((error) => {
-          return error;
-        }) as IQRCodeReaderData;
-        if (result?.result) {
-          resolve({ ...result, imageData } as IQRCodeReaderData);
-        } else {
-          requestAnimationFrame(drawFrame);
-        }
+        canvas.width = video.videoWidth;
+        canvas.height = video.videoHeight;
+        // Start drawing frames
+        requestAnimationFrame(drawFrame);
       };
-
-      canvas.width = video.videoWidth;
-      canvas.height = video.videoHeight;
-      // Start drawing frames
-      requestAnimationFrame(drawFrame);
-    };
+    } catch (error) {
+      reject(error);
+    }
   });
 };
 

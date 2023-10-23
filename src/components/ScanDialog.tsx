@@ -1,69 +1,57 @@
-import React, { useCallback, useEffect, useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { Button, Element, Heading, Stack } from 'react-ui';
-import { Footer, Header } from '../components';
+import React, { useCallback } from 'react';
+import { Button, Dialog, Element, Heading, Stack } from 'react-ui';
+import { Header } from '../components';
 import { readQRCodeFromCamera } from '../api';
+import { useNavigate } from 'react-router-dom';
 
-export const Scan = (props: IScanProps) => {
+export const ScanDialog = (props: IScanDialogProps) => {
   const navigate = useNavigate();
-  const canvasRef = useRef<HTMLCanvasElement>(null);
 
-  const handleCancelClick = useCallback((event: any) => {
+  const handleCancelClick = useCallback((event?: any) => {
     if (window.history.state.idx > 0) {
       window.history.go(-1);
-      // event.preventDefault();
     } else {
       navigate('/');
     }
   }, [navigate]);
 
-  useEffect(() => {
-    (async () => {
-      if (canvasRef?.current) {
-        const camData = await readQRCodeFromCamera(canvasRef.current, 4/3);
-        navigate('/result', {state: { camData }});
+  const handleCanvasRef = useCallback(async (canvas: HTMLCanvasElement) => {
+    if (canvas) {
+      try {
+        const camData = await readQRCodeFromCamera(canvas, 4 / 3);
+        if (camData.result !== window.history.state?.usr?.camData?.result) {
+          navigate('/result', { state: { camData } });
+        }
+      } catch (error: any) {
+        alert(`Error: ${error?.error}`);
+        handleCancelClick();
       }
-    })();
-  }, [navigate]);
+    }
+  }, [handleCancelClick, navigate]);
 
-  return (<>
-    <Element
-      // {...props}
-      data-testid="scan-backdrop"
-      as="div"
+  return (
+    <Dialog
+      {...props}
+      data-testid="scan-dialog"
+      className="scanDialog"
+      isOpen={true}
+      aria-label="Scanning"
+      onDismiss={handleCancelClick}
       css={{
-        position: 'absolute',
-        top: 0,
-        bottom: 0,
-        left: 0,
-        right: 0,
-        backgroundColor: 'rgba(0, 0, 0, 0.8)'
-      }}
-    ></Element>
-
-    <Stack
-      data-testid="scan"
-      direction="vertical"
-      align="center"
-      justify="center"
-      gap={5}
-      css={{
-        position: 'relative',
-        margin: 'auto',
-        maxWidth: '30rem',
-        width: '-webkit-fill-available',
-        height: '-webkit-fill-available',
-        justifyContent: 'flex-start',
-        overflowY: 'visible'
+        alignItems: 'start',
+        backgroundColor: '#030303',
+        padding: '0 1rem'
       }}
     >
       <Header
         data-testid="scan-header"
         color="white"
+        hideDismissButton={true}
+        hideInfoButton={true}
       />
 
       <Stack
-        data-testid="scan-content"
+        data-testid="scan-dialog-content"
         direction="vertical"
         align="center"
         justify="space-between"
@@ -74,7 +62,7 @@ export const Scan = (props: IScanProps) => {
         }}
       >
         <Heading
-          data-testid="scan-title"
+          data-testid="scan-dialog-title"
           size={5}
           css={{
             color: 'white'
@@ -82,8 +70,8 @@ export const Scan = (props: IScanProps) => {
         >Scanning...</Heading>
 
         <Element
-          ref={canvasRef}
-          data-testid="scan-canvas"
+          ref={handleCanvasRef}
+          data-testid="scan-dialog-canvas"
           as="canvas"
           css={{
             width: '100%',
@@ -92,7 +80,7 @@ export const Scan = (props: IScanProps) => {
         ></Element>
 
         <Stack
-          data-testid="home-actions"
+          data-testid="scan-dialog-actions"
           direction="vertical"
           align="center"
           justify="center"
@@ -102,7 +90,7 @@ export const Scan = (props: IScanProps) => {
           }}
         >
           <Button
-            data-testid="cancel-scan-action"
+            data-testid="cancel-scan-dialog-action"
             type="button"
             fullWidth
             onClick={handleCancelClick}
@@ -128,9 +116,7 @@ export const Scan = (props: IScanProps) => {
 
         </Stack>
       </Stack>
-
-      <Footer data-testid="scan-footer" color="white" />
-    </Stack>
-  </>);
+    </Dialog>
+  );
 };
-export default Scan;
+export default ScanDialog;

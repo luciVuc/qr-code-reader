@@ -1,5 +1,6 @@
 {
   "name": "qr-code-reader",
+  "description": "Scan and decode QR Code images.",
   "version": "0.1.0",
   "private": true,
   "dependencies": {

@@ -21,8 +21,3 @@ declare interface IQRCodeReaderData {
   };
   imageData?: ImageData;
 }
-
-// declare interface IQRCodeResultProps extends IQRCodeReaderData {
-//   onCopyClick?(content: string): void;
-//   onNavBack?(): void;
-// }

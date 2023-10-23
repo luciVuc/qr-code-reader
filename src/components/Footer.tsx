@@ -6,10 +6,7 @@ export function Footer(props: IFooterProps) {
     <Stack
       {...props}
       css={{
-        position: 'absolute',
-        bottom: 0,
-        left: 0,
-        right: 0
+        position: 'relative'
       }}
     >
       <Copyright color={props.color} backgroundColor={props.backgroundColor} />
