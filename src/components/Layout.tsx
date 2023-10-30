@@ -8,7 +8,7 @@ export const Layout = forwardRef(({ header, footer, children, testId = "layout" 
       data-testid={testId}
       direction="vertical"
       align="center"
-      justify="center"
+      justify="flex-start"
       gap={5}
       css={{
         position: 'relative',
@@ -32,6 +32,8 @@ export const Layout = forwardRef(({ header, footer, children, testId = "layout" 
         justify="space-between"
         css={{
           position: 'relative',
+          justifyContent: 'flex-start',
+          height: 'auto',
           width: '100%'
         }}
       >{children}</Stack>

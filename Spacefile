@@ -1,7 +1,13 @@
 # Spacefile Docs: https://go.deta.dev/docs/spacefile/v0
 v: 0
+app_name: "QRCodeReader"
 micros:
   - name: qr-code-reader
-    src: ./
+    src: ./src
     engine: react
     primary: true
+    commands:
+      - npm run build
+    serve: dist
+    dev: npm start
+    run: serve -s build -- --port $PORT

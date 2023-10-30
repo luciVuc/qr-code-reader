@@ -12,18 +12,15 @@
   padding-left: 0.25rem;
   padding-right: 0.25rem;
   border: 0;
-  /* position: absolute; */
-  /* top: 0; */
-  /* right: 0; */
 }
 
-/* .result:hover button.text-copy-action,
-.result:active button.text-copy-action {
-  display: -webkit-inline-box;
-  display: -webkit-inline-flex;
-  display: -ms-inline-flexbox;
-  display: inline-flex;
-} */
+.result button.text-copy-action:hover{
+  opacity: 0.6;
+}
+
+.result button.text-copy-action:active {
+  opacity: 0.8;
+}
 
 .result,
 .error {
