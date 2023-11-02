@@ -16,7 +16,7 @@ export function Copyright({ color, backgroundColor }: ICopyrightProps) {
       <Text as="label" size={1}>
         {'Copyright © '}
         <Link target="_blank" href="">
-          QR Code Scanner
+          QRCodeDecode
         </Link>{' '}
         {new Date().getFullYear()}
         {'.'}

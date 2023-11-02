@@ -1,6 +1,6 @@
 {
-  "short_name": "QR-Code-Reader",
-  "name": "QR-Code-Reader",
+  "short_name": "QRCodeDecode",
+  "name": "QRCodeDecode",
   "description": "Scan and decode QR Code images.",
   "icons": [
     {
@@ -29,8 +29,8 @@
   ],
   "shortcuts": [
     {
-      "short_name": "QR-Code-Reader",
-      "name": "QR-Code-Reader",
+      "short_name": "QRCodeDecode",
+      "name": "QRCodeDecode",
       "description": "Scan and decode QR Code images.",
       "url": "/",
       "icons": [

@@ -53,12 +53,12 @@ export const About = (props: IAboutProps) => {
       >Version {version}</Text>
 
       <Panel title='Privacy Notice'>
-        <Heading size={1}>Privacy Policy for QR-Code-Reader</Heading>
+        <Heading size={1}>Privacy Policy for QRCodeDecode</Heading>
 
         <Text as="p" size={1}>Effective Date: 10/20/2023</Text>
 
         <Text as="p" size={1}>
-          At <b>QR-Code-Reader</b>, we value your privacy and are committed to protecting your personal information.
+          At <b>QRCodeDecode</b>, we value your privacy and are committed to protecting your personal information.
           This Privacy Policy outlines how we collect, use, and disclose information when you use our app.
           By accessing or using our app, you agree to the terms of this Privacy Policy.
         </Text>

@@ -67,7 +67,7 @@ export function Home(props: IHomeProps) {
       <Heading
         data-testid="home-title"
         size={5}
-      >QR Code Scanner</Heading>
+      >QRCodeDecode</Heading>
 
       <Text
         data-testid="home-info"

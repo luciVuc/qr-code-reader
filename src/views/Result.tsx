@@ -142,7 +142,7 @@ export const Result = (props: IResultsProps) => {
       <Heading
         data-testid="result-title"
         size={5}
-      >QR Code Scanner</Heading>
+      >QRCodeDecode</Heading>
 
       <Element
         ref={resultContainerRef}

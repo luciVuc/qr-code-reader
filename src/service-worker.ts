@@ -19,9 +19,9 @@ const RESOURCE_FILE_EXTENSIONS = ['.ico', '.jpg', '.jpeg', '.png', '.gif', '.bmp
 
 // Regex to split a windows path into three parts: [*, device, slash,
 // tail] windows-only
-const splitDeviceRe = /^([a-zA-Z]:|[\\\/]{2}[^\\\/]+[\\\/]+[^\\\/]+)?([\\\/])?([\s\S]*?)$/;
+const splitDeviceRe = /^([a-zA-Z]:|[\\/]{2}[^\\/]+[\\/]+[^\\/]+)?([\\/])?([\s\S]*?)$/;
 // Regex to split the tail part of the above into [*, dir, basename, ext]
-const splitTailRe = /^([\s\S]*?)((?:\.{1,2}|[^\\\/]+?|)(\.[^.\/\\]*|))(?:[\\\/]*)$/;
+const splitTailRe = /^([\s\S]*?)((?:\.{1,2}|[^\\/]+?|)(\.[^./\\]*|))(?:[\\/]*)$/;
 
 // Function to split a filename into [root, dir, basename, ext]
 function win32SplitPath(filename: string) {
